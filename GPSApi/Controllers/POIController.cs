@@ -14,7 +14,7 @@ namespace GPSApi.Controllers
             this.repository = repository;
         }
 
-        [HttpGet]
+        [HttpGet("Id")]
         public async Task<IActionResult> Get(Guid Id)
         {
             var poi = await repository.Get(Id);
