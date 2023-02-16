@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  gpsapi:
+    image: ${DOCKER_REGISTRY-}gpsapi
+    build:
+      context: .
+      dockerfile: GPSApi/Dockerfile
+    networks:
+      - mysql_network
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=password
+      - MYSQL_USER=mysqlusr
+      - MYSQL_DATABASE=gpsdb
+    networks:
+      - mysql_network
+
+networks:
+  mysql_network:
+    driver: bridge
