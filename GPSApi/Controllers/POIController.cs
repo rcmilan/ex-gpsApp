@@ -1,4 +1,5 @@
 ﻿using GPSApi.Database.Interfaces;
+using GPSApi.Domain.Entities;
 using GPSApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,23 @@ namespace GPSApi.Controllers
             var result = new GetPointOfInterestResponse(poi.Id);
 
             return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(PostPointOfInterestRequest request)
+        {
+            var poi = new PointOfInterest
+            {
+                Name = request.Name,
+                PointX = (uint)request.X,
+                PointY = (uint)request.Y
+            };
+
+            await repository.Add(poi);
+
+            var response = new PostPointOfInterestResponse(poi.Id, poi.Name, (int)poi.PointX, (int)poi.PointY);
+
+            return Ok(response);
         }
     }
 }
