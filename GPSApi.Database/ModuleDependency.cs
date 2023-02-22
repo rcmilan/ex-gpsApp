@@ -4,6 +4,7 @@ using GPSApi.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MySqlConnector;
 
 namespace GPSApi.Database
 {
@@ -13,8 +14,10 @@ namespace GPSApi.Database
         {
             var serverVersion = new MySqlServerVersion(ServerVersion.AutoDetect(connectionString));
 
+            var mySqlConnection = new MySqlConnection(connectionString);
+
             services.AddDbContext<MyDbContext>(options => options
-                    .UseMySql(connectionString, serverVersion)
+                    .UseMySql(mySqlConnection, serverVersion)
 #if DEBUG
                     // The following three options help with debugging, but should
                     // be changed or removed for production.
