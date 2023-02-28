@@ -16,12 +16,14 @@ services:
     container_name: mysql
     ports:
       - 3306:3306
+    expose:
+      - '3306'
     volumes:
       - ./db:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_PASSWORD=password
       - MYSQL_USER=mysqlusr
+      - MYSQL_ROOT_PASSWORD="123456"
       - MYSQL_DATABASE=gpsdb
     networks:
       - mysql_network
