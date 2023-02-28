@@ -1,6 +1,7 @@
 ﻿using GPSApi.Database.Configuration;
 using GPSApi.Database.Interfaces;
 using GPSApi.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GPSApi.Database.Repositories
 {
@@ -24,9 +25,10 @@ namespace GPSApi.Database.Repositories
             return entity.Id;
         }
 
-        public Task<PointOfInterest> Get(Guid Id)
+        public async Task<PointOfInterest> Get(Guid Id)
         {
-            throw new NotImplementedException();
+            return await dbContext.Set<PointOfInterest>()
+                .SingleOrDefaultAsync(p => p.Id == Id);
         }
     }
 }
