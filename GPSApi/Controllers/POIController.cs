@@ -2,6 +2,7 @@
 using GPSApi.Domain.Entities;
 using GPSApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 
 namespace GPSApi.Controllers
 {
@@ -21,9 +22,9 @@ namespace GPSApi.Controllers
         {
             var poi = await repository.Get(Id);
 
-            var result = new GetPointOfInterestResponse(poi.Id);
+            var pointsInRadius = await repository.GetInRadius(poi.PointX, poi.PointY);
 
-            return Ok(result);
+            return Ok(pointsInRadius);
         }
 
         [HttpPost]

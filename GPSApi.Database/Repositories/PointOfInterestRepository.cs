@@ -1,5 +1,6 @@
 ﻿using GPSApi.Database.Configuration;
 using GPSApi.Database.Interfaces;
+using GPSApi.Domain.Base;
 using GPSApi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,10 +26,19 @@ namespace GPSApi.Database.Repositories
             return entity.Id;
         }
 
-        public async Task<PointOfInterest> Get(Guid Id)
+        public Task<PointOfInterest> Get(Guid Id)
+            => dbContext.Set<PointOfInterest>().SingleOrDefaultAsync(p => p.Id == Id);
+
+        public async Task<IReadOnlyCollection<PointOfInterest>> GetInRadius(uint x, uint y)
         {
+            var radius = Constants.RADIUS;
+
+            // ToDo: criar uma função decente
+
             return await dbContext.Set<PointOfInterest>()
-                .SingleOrDefaultAsync(p => p.Id == Id);
+                .Where(p => p.PointX >= x - radius && p.PointX <= x + radius)
+                .Where(p => p.PointY >= y - radius && p.PointY <= y + radius)
+                .ToListAsync();
         }
     }
 }
