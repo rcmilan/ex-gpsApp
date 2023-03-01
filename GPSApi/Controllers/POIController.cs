@@ -10,6 +10,7 @@ namespace GPSApi.Controllers
     public class POIController : ControllerBase
     {
         private readonly IPointOfInterestRepository repository;
+
         public POIController(IPointOfInterestRepository repository)
         {
             this.repository = repository;
